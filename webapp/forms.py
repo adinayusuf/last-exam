@@ -32,6 +32,6 @@ class AlbumForm(forms.ModelForm):
         if 'author_id' in kwargs:
             author_id = kwargs.pop('author_id')
         super(AlbumForm, self).__init__(*args, **kwargs)
-        if self.instance.id:
+        if self.instance.id and author_id:
             user = get_user_model().objects.get(id=author_id)
             self.fields['photo'].queryset = self.instance.photo_set.filter(Q(is_private=False) | Q(author=user))

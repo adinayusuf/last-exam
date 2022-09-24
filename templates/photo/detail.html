@@ -7,21 +7,21 @@
                 10rem; background-repeat: no-repeat;" alt="">
         <br>
         <p>Описание: {{ photo.description }}</p>
-        <p>Автор: {{ photo.user }}</p>
+        <p>Автор: {{ photo.author }}</p>
         {% if photo.album %}
             <a href="{% url 'webapp:album_detail' photo.album.pk %}"><p>Альбом:{{ photo.album }}</p></a>
         {% endif %}
         <p>Дата создания: {{ photo.created_at }}</p>
-        {% if request.user == photo.user and photo.tokens.first %}
+        {% if request.user == photo.author and photo.tokens.first %}
 {#            <p>Поделиться: {{ request.get_host }}{% url 'webapp:photo_token_detail' photo.tokens.first.token %}</p>#}
         {% endif %}
     </div>
-{#    {% if request.user == photo.user %}#}
+{#    {% if request.user == photo.author %}#}
 {#        <a href="{% url 'webapp:photo_token_generate' photo.id %}" class="btn btn-info">Сгенерировать ссылку</a>#}
-        {% if perms.webapp.change_photo %}
+        {% if request.user == photo.author or perms.webapp.change_photo %}
             <a href="{% url 'webapp:photo_update' photo.id %}" class="btn btn-success">Редактировать</a>
         {% endif %}
-        {% if perms.webapp.delete_photo %}
+        {% if request.user == photo.author or perms.webapp.delete_photo %}
             <a href="{% url 'webapp:photo_delete' photo.id %}" class="btn btn-success">Удалить</a>
         {% endif %}
 {#    {% endif %}#}

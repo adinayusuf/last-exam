@@ -7,10 +7,10 @@
         <p class="font-italic">Описание: {{ album.description }}</p>
     </div>
     <br>
-    {% if request.user == album.user or perms.webapp.change_album %}
+    {% if request.user == album.author or perms.webapp.change_album %}
         <a href="{% url 'webapp:album_update' album.id %}" class="btn btn-primary">Редактировать</a>
     {% endif %}
-    {% if request.user == album.user or perms.webapp.delete_album %}
+    {% if request.user == album.author or perms.webapp.delete_album %}
         <a href="{% url 'webapp:album_delete' album.id %}" class="btn btn-danger">Удалить</a>
     {% endif %}
 

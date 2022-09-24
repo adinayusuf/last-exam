@@ -32,5 +32,5 @@ class FavoritePhoto(models.Model):
 
 
 class FavoriteAlbum(models.Model):
-    user = models.ForeignKey(get_user_model(), related_name='fav_album', on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), related_name='fav_albums', on_delete=models.CASCADE)
     album = models.ForeignKey(Album, related_name='fav_users', on_delete=models.CASCADE)
