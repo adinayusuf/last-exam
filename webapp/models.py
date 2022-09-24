@@ -1,3 +1,6 @@
+import uuid as uuid
+from datetime import datetime, timedelta
+
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -34,3 +37,13 @@ class FavoritePhoto(models.Model):
 class FavoriteAlbum(models.Model):
     user = models.ForeignKey(get_user_model(), related_name='fav_albums', on_delete=models.CASCADE)
     album = models.ForeignKey(Album, related_name='fav_users', on_delete=models.CASCADE)
+
+
+def epire_date():
+    return datetime.now() + timedelta(days=1)
+
+
+class PhotoToken(models.Model):
+    id = models.UUIDField(default=uuid.uuid4(), primary_key=True)
+    photo = models.ForeignKey(Photo, on_delete=models.CASCADE, related_name='tokens')
+    expires = models.DateTimeField(default=epire_date)

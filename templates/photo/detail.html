@@ -13,16 +13,16 @@
         {% endif %}
         <p>Дата создания: {{ photo.created_at }}</p>
         {% if request.user == photo.author and photo.tokens.first %}
-{#            <p>Поделиться: {{ request.get_host }}{% url 'webapp:photo_token_detail' photo.tokens.first.token %}</p>#}
+            <p>Поделиться: {{ request.get_host }}{% url 'webapp:token_photo' photo.tokens.first.id %}</p>
         {% endif %}
     </div>
-{#    {% if request.user == photo.author %}#}
-{#        <a href="{% url 'webapp:photo_token_generate' photo.id %}" class="btn btn-info">Сгенерировать ссылку</a>#}
-        {% if request.user == photo.author or perms.webapp.change_photo %}
-            <a href="{% url 'webapp:photo_update' photo.id %}" class="btn btn-success">Редактировать</a>
-        {% endif %}
-        {% if request.user == photo.author or perms.webapp.delete_photo %}
-            <a href="{% url 'webapp:photo_delete' photo.id %}" class="btn btn-success">Удалить</a>
-        {% endif %}
-{#    {% endif %}#}
+    {% if request.user == photo.author %}
+        <a href="{% url 'webapp:create_token' photo.id %}" class="btn btn-info">Сгенерировать ссылку</a>
+    {% endif %}
+    {% if request.user == photo.author or perms.webapp.change_photo %}
+        <a href="{% url 'webapp:photo_update' photo.id %}" class="btn btn-success">Редактировать</a>
+    {% endif %}
+    {% if request.user == photo.author or perms.webapp.delete_photo %}
+        <a href="{% url 'webapp:photo_delete' photo.id %}" class="btn btn-success">Удалить</a>
+    {% endif %}
 {% endblock %}

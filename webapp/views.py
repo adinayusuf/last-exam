@@ -1,10 +1,16 @@
+from datetime import datetime
+
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Q
+from django.http import HttpResponseForbidden
+from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
+from django.utils import timezone
+from django.views import View
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 
 from webapp.forms import PhotoForm, AlbumForm
-from webapp.models import Photo, Album
+from webapp.models import Photo, Album, PhotoToken
 
 
 class IndexView(ListView):
@@ -59,10 +65,12 @@ class PhotoUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
             return True
         return False
 
+
 class PhotoDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Photo
     template_name = 'photo/delete.html'
     success_url = reverse_lazy('webapp:index')
+
     def has_permission(self):
         album = self.get_object()
         if album.author == self.request.user:
@@ -90,7 +98,7 @@ class AlbumCreateView(LoginRequiredMixin, CreateView):
         return kwargs
 
 
-class AlbumUpdateView(LoginRequiredMixin,PermissionRequiredMixin, UpdateView):
+class AlbumUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Album
     context_object_name = 'album'
     template_name = 'album/update.html'
@@ -126,7 +134,7 @@ class AlbumDetailView(DetailView):
     context_object_name = 'album'
 
 
-class AlbumDeleteView(LoginRequiredMixin,PermissionRequiredMixin, DeleteView):
+class AlbumDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Album
     template_name = 'album/delete.html'
     success_url = reverse_lazy('webapp:album_list')
@@ -139,3 +147,30 @@ class AlbumDeleteView(LoginRequiredMixin,PermissionRequiredMixin, DeleteView):
             return True
         return False
 
+
+class CreatePhotoToken(LoginRequiredMixin, PermissionRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        photo = self.get_object()
+        PhotoToken.objects.create(photo=photo)
+        return redirect('webapp:photo_detail', pk=photo.id)
+
+    def has_permission(self):
+        photo = self.get_object()
+        if photo.author == self.request.user:
+            return True
+        return False
+
+    def get_object(self):
+        return Photo.objects.get(id=self.kwargs.get('pk'))
+
+
+class RetrievePhotoToken(DetailView):
+    model = PhotoToken
+    template_name = "photo/detail.html"
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.expires > timezone.now():
+            context = {'photo': self.object.photo}
+            return self.render_to_response(context)
+        return HttpResponseForbidden()
