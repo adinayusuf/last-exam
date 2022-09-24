@@ -3,7 +3,8 @@
 {% block content %}
     <div class="main">
         <div class="content">
-            <form action="/auth/login" method="post" class="form-container">
+            <form action="/auth/login/" method="post" class="form-container">
+                {% csrf_token %}
                 <div class="form-header"><strong>Login</strong></div>
                 <br>
                 <input type="text" class="form-input" id="username" name="username" placeholder="Username"/>

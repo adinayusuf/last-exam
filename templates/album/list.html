@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+    <a href="{% url 'webapp:album_create' %}" class="btn btn-primary">Создать Альбом</a>
+    <div class="row">
+        {% for a in albums %}
+            <div class="col-md-3">
+                <a href="{% url 'webapp:album_detail' a.pk %}">Название: {{ a.title }}</a>
+                <br>
+                <p>Описание: {{ a.description }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

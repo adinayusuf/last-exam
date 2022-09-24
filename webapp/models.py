@@ -24,3 +24,13 @@ class Photo(models.Model):
 
     def __str__(self):
         return self.description
+
+
+class FavoritePhoto(models.Model):
+    user = models.ForeignKey(get_user_model(), related_name='fav_photos', on_delete=models.CASCADE)
+    photo = models.ForeignKey(Photo, related_name='fav_users', on_delete=models.CASCADE)
+
+
+class FavoriteAlbum(models.Model):
+    user = models.ForeignKey(get_user_model(), related_name='fav_album', on_delete=models.CASCADE)
+    album = models.ForeignKey(Album, related_name='fav_users', on_delete=models.CASCADE)

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+    <br>
+    <div class="row">
+        {% for p in photos %}
+            <div class="col-md-3">
+                <a href="{% url 'webapp:photo_detail' p.id %}"><img src="{{ p.image.url }}" style=" width: 10rem; height:
+                10rem; background-repeat: no-repeat; cursor: pointer" alt=""></a>
+                <br>
+                <a href="{% url 'webapp:photo_detail' p.id %}">{{ p.description }}</a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Редактировать фото{% endblock %}
+{% block nav %} {% endblock %}
+{% block content %}
+    <h1>Редактировать фото</h1>
+        <form action="{% url "webapp:photo_update" photo.id %}" method="post" enctype="multipart/form-data">
+        {% include 'partial/form.html' with button_text="Сохранить" %}
+    </form>
+    <br>
+    <p><a href="{% url "webapp:photo_detail" photo.pk %}" class="btn btn-primary" style="float: left">Назад</a></p>
+{% endblock %}

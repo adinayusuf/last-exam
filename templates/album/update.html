@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Редактировать альбом{% endblock %}
+{% block nav %} {% endblock %}
+{% block content %}
+    <h1>Редактировать альбом</h1>
+        <form action="{% url "webapp:album_update" album.id %}" method="post" >
+        {% include 'partial/form.html' with button_text="Сохранить" %}
+    </form>
+    <br>
+    <p><a href="{% url "webapp:album_detail" album.pk %}" class="btn btn-success" style="float: left">Назад</a></p>
+{% endblock %}

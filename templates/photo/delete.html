@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Удаление фото{% endblock %}
+{% block content %}
+    <div>
+        <form action="{% url 'webapp:photo_delete' photo.id %}" method="POST">
+            {% csrf_token %}
+            <br>
+            <div class="card text-center" style="max-width: 18rem;">
+                <div class="card-header">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Удаление:</h5>
+
+                    <img src="{{ photo.image.url }}" style=" width: 15rem; height:
+                10rem; background-repeat: no-repeat;" alt="">
+                    <p class="card-text">Вы действительно хотите удалить фото? {{ photo.description }}</p>
+                    <div class="gap-2 col-6" style="float: right">
+                        <a>
+                            <button class="btn btn-danger" type="submit">Да</button>
+                        </a>
+                        <a href="{% url "webapp:photo_detail" photo.id %}">
+                            <button class="btn btn-success" type="button">Нет</button>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-footer">
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

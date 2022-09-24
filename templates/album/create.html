@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Добавить альбом{% endblock %}
+{% block nav %} {% endblock %}
+{% block content %}
+    <h1>Добавить альбом</h1>
+    <form action="{% url "webapp:album_create" %}" method="post">
+        {% include 'partial/form.html' with button_text="Добавить" %}
+    </form>
+{% endblock %}
