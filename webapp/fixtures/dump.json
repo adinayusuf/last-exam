@@ -1,0 +1,73 @@
+[
+{
+    "model": "webapp.album",
+    "pk": 5,
+    "fields": {
+        "description": "разное",
+        "title": "для радости",
+        "author": 1,
+        "created_at": "2022-09-24T11:57:36.644Z",
+        "is_private": false
+    }
+},
+{
+    "model": "webapp.photo",
+    "pk": 11,
+    "fields": {
+        "image": "images/0_7c779_5df17311_orig.jpg",
+        "description": "test",
+        "created_at": "2022-09-24T11:55:51.182Z",
+        "author": 1,
+        "album": null,
+        "is_private": false
+    }
+},
+{
+    "model": "webapp.photo",
+    "pk": 12,
+    "fields": {
+        "image": "images/1556708032_1.jpg",
+        "description": "qwe",
+        "created_at": "2022-09-24T11:56:05.268Z",
+        "author": 1,
+        "album": null,
+        "is_private": false
+    }
+},
+{
+    "model": "webapp.photo",
+    "pk": 14,
+    "fields": {
+        "image": "images/multfilm_lyagushka_32117.jpg",
+        "description": "bmw",
+        "created_at": "2022-09-24T11:56:52.573Z",
+        "author": 1,
+        "album": null,
+        "is_private": false
+    }
+},
+{
+    "model": "webapp.photo",
+    "pk": 15,
+    "fields": {
+        "image": "images/Обои-для-девочек-на-телефон-12-лет-красивые-картинки-16.jpg",
+        "description": "закончить домашку",
+        "created_at": "2022-09-24T11:57:05.832Z",
+        "author": 1,
+        "album": null,
+        "is_private": true
+    }
+},
+{
+    "model": "webapp.photo",
+    "pk": 16,
+    "fields": {
+        "image": "images/0_7c779_5df17311_origx.jpg",
+        "description": "тест",
+        "created_at": "2022-09-24T11:58:01.398Z",
+        "author": 1,
+        "album": 5,
+        "is_private": false
+    }
+}
+]
