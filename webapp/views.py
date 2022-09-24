@@ -93,7 +93,7 @@ class AlbumListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return Photo.objects.filter(Q(is_private=False) | Q(author=self.request.user)).order_by("-created_at")
+            return Album.objects.filter(Q(is_private=False) | Q(author=self.request.user)).order_by("-created_at")
         return Album.objects.filter(is_private=False).order_by("-created_at")
 
 

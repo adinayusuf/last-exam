@@ -33,15 +33,18 @@
                 <li class="nav-item">
                     <a href="{% url 'webapp:album_create' %}" class="nav-link">Создать Альбом</a>
                 </li>
+                <li class="nav-item">
+                    <a href="{% url 'webapp:album_list'  %}" class="nav-link">Посмотреть Альбом</a>
+                </li>
                 {% if not user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'accounts:login' %}?next={{ request.get_full_path }}">Вход</a>
                     </li>
                 {% else %}
-                    {#                    <li class="nav-item">#}
-                    {#                        <a class="nav-link"#}
-                    {#                           href="{% url 'accounts:user-profile' request.user.pk %}">Профиль</a>#}
-                    {#                    </li>#}
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{% url 'accounts:user_profile' request.user.pk %}">Профиль</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link"
                            href="{% url 'accounts:logout' %}?next={{ request.get_full_path }}">Выход</a>

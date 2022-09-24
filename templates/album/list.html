@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
 {% block title %}Главная{% endblock %}
 {% block content %}
-    <a href="{% url 'webapp:album_create' %}" class="btn btn-primary">Создать Альбом</a>
+    <br>
     <div class="row">
         {% for a in albums %}
-            <div class="col-md-3">
-                <a href="{% url 'webapp:album_detail' a.pk %}">Название: {{ a.title }}</a>
-                <br>
-                <p>Описание: {{ a.description }}</p>
+            <div class="card m-2 bg-light" style="width: 16rem;">
+                <a href="{% url 'webapp:album_detail' a.pk %}" style="text-decoration: none">
+                    <div class="card-body">
+                        <h5 class="card-title">Альбом {{ a.id }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Название:{{ a.title }}</h6>
+                        <p class="card-text">Описание: {{ a.description }} </p>
+                        <p class="card-text">Автор:{{ a.author }} </p>
+                    </div>
+                </a>
             </div>
         {% endfor %}
     </div>

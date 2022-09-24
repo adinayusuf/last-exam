@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}Главная{% endblock %}
 {% block content %}
-
     <div>
         <br>
         <p class="font-weight-bold">Название: {{ album.title }}</p>
@@ -12,11 +11,11 @@
         <a href="{% url 'webapp:album_update' album.id %}" class="btn btn-primary">Редактировать</a>
     {% endif %}
     {% if request.user == album.user or perms.webapp.delete_album %}
-        <a href="{% url 'webapp:album_delete' album.id %}" class="btn btn-danger" >Удалить</a>
+        <a href="{% url 'webapp:album_delete' album.id %}" class="btn btn-danger">Удалить</a>
     {% endif %}
 
     <br>
-        <br>
+    <br>
     <h3>Фото</h3>
     <div class="row">
         {% for p in album.photo_set.all %}
@@ -25,7 +24,8 @@
                     <img src="{{ p.image.url }}" style=" width: 10rem; height:
                 10rem; background-repeat: no-repeat;" alt="">
                     <br>
-                    <a href="{% url 'webapp:photo_detail' p.id %}" style="text-decoration: none; "class="text-warning">{{ p.description }}</a>
+                    <a href="{% url 'webapp:photo_detail' p.id %}" style="text-decoration: none; "
+                       class="text-warning">{{ p.description }}</a>
                 </div>
             {% endif %}
         {% endfor %}

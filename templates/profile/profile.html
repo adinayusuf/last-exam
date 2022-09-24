@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>Профиль пользователя {{ user_object.username }}</h3>
+
+
+    {% if user_object.profile.avatar %}
+        <img src="{{ user_object.profile.avatar.url }}" alt="user avatar">
+    {% endif %}
+
+    <h5>Альбомы:</h5><br>
+    <div class="row">
+        {% for a in user_object.albums.all %}
+            {% if not p.is_private or request.user == p.user %}
+                <div class="col-md-3">
+                    <a href="{% url 'webapp:album_detail' a.pk %}">Название: {{ a.title }}</a>
+                    <br>
+                    <p>Описание: {{ a.description }}</p>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <h5>Фото:</h5><br>
+    <div class="row">
+        {% for p in user_object.photos.all %}
+            {% if not p.is_private or request.user == p.user %}
+                <div class="col-md-3">
+                    <img src="{{ p.image.url }}" style=" width: 10rem; height:
+                10rem; background-repeat: no-repeat;" alt="">
+                    <br>
+                    <a href="{% url 'webapp:photo_detail' p.id %}">{{ p.description }}</a>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+{% endblock content %}
