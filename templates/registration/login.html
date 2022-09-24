@@ -1,0 +1,17 @@
+{% extends "registration/layout.html" %}
+
+{% block content %}
+    <div class="main">
+        <div class="content">
+            <form action="/auth/login" method="post" class="form-container">
+                <div class="form-header"><strong>Login</strong></div>
+                <br>
+                <input type="text" class="form-input" id="username" name="username" placeholder="Username"/>
+                <br>
+                <input type="password" class="form-input" id="password" name="password" placeholder="Password"/>
+                <br>
+                <button type="submit" class="form-btn">Login</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
