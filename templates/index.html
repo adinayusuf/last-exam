@@ -3,8 +3,10 @@
 {% block content %}
     <br>
     <div class="row">
+        <br>
         {% for p in photos %}
             <div class="col-md-3">
+                <br>
                 <a href="{% url 'webapp:photo_detail' p.id %}"><img src="{{ p.image.url }}" style=" width: 10rem; height:
                 10rem; background-repeat: no-repeat; cursor: pointer" alt=""></a>
                 <br>
@@ -22,6 +24,7 @@
                     </button>
                 {% endif %}
             </div>
+
         {% endfor %}
     </div>
 {% endblock %}

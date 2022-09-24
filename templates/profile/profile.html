@@ -21,11 +21,11 @@
         {% endfor %}
         <h5>Избранные альбомы:</h5><br>
         {% for fa in user_object.fav_albums.all %}
-            {% if not fa.is_private or request.user == fa.author %}
+            {% if not fa.album.is_private or request.user == fa.album.author %}
                 <div class="col-md-3">
-                    <a href="{% url 'webapp:album_detail' a.pk %}">Название: {{ fa.title }}</a>
+                    <a href="{% url 'webapp:album_detail' fa.album.pk %}">Название: {{ fa.album.title }}</a>
                     <br>
-                    <p>Описание: {{ fa.description }}</p>
+                    <p>Описание: {{ fa.album.description }}</p>
                 </div>
             {% endif %}
         {% endfor %}
@@ -43,13 +43,13 @@
             {% endif %}
         {% endfor %}
         <h5>Избранные фото:</h5><br>
-        {% for fp in user_object.fav_albums.all %}
-            {% if not fp.is_private or request.user == fp.author %}
+        {% for fp in user_object.fav_photos.all %}
+            {% if not fp.photo.is_private or request.user == fp.photo.author %}
                 <div class="col-md-3">
-                    <img src="{{ fp.image.url }}" style=" width: 10rem; height:
+                    <img src="{{ fp.photo.image.url }}" style=" width: 10rem; height:
                 10rem; background-repeat: no-repeat;" alt="">
                     <br>
-                    <a href="{% url 'webapp:photo_detail' p.id %}">{{ fp.description }}</a>
+                    <a href="{% url 'webapp:photo_detail' fp.photo.id %}">{{ fp.photo.description }}</a>
                 </div>
             {% endif %}
         {% endfor %}

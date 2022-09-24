@@ -41,7 +41,15 @@
                 </div>
             {% endif %}
         {% endfor %}
-
+    </div>
+    <br>
+    <div>
+        <h3>В Избранном у пользователей:</h3>
+        {% for fav_user in album.fav_users.all %}
+            <p><a href="{% url 'accounts:user_profile' fav_user.user.id %}">{{ fav_user.user.username }}</a></p>
+        {% endfor %}
+        <br>
+        <br>
     </div>
 {% endblock %}
 

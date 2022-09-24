@@ -36,6 +36,15 @@
     {% if request.user == photo.author or perms.webapp.delete_photo %}
         <a href="{% url 'webapp:photo_delete' photo.id %}" class="btn btn-success">Удалить</a>
     {% endif %}
+    <br>
+    <div>
+        <h3>В Избранном у пользователей:</h3>
+        {% for fav_user in photo.fav_users.all %}
+            <p><a href="{% url 'accounts:user_profile' fav_user.user.id %}">{{ fav_user.user.username }}</a></p>
+        {% endfor %}
+        <br>
+        <br>
+    </div>
 {% endblock %}
 
 {% block scripts %}
@@ -49,7 +58,9 @@
                     if (response.success) {
                         document.getElementById("fav-btn-" + id).hidden = false;
                         document.getElementById("un-fav-btn-" + id).hidden = true;
-                    } else { console.log(response);}
+                    } else {
+                        console.log(response);
+                    }
                 });
         }
 
@@ -62,7 +73,9 @@
                     if (response.success) {
                         document.getElementById("un-fav-btn-" + id).hidden = false;
                         document.getElementById("fav-btn-" + id).hidden = true;
-                    } else { console.log(response);}
+                    } else {
+                        console.log(response);
+                    }
                 });
         }
     </script>

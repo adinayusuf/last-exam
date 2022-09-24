@@ -11,9 +11,9 @@
                         <h6 class="card-subtitle mb-2 text-muted">Название:{{ a.title }}</h6>
                         <p class="card-text">Описание: {{ a.description }} </p>
                         <p class="card-text">Автор:{{ a.author }} </p>
+
                     </div>
                 </a>
-            </div>
             {% if request.user.is_authenticated %}
                 <button id="un-fav-btn-{{ a.id }}" class="btn btn-danger"
                         {% if a.id not in fav_albums %}hidden{% endif %}
@@ -25,6 +25,8 @@
                     Добавить в избранного
                 </button>
             {% endif %}
+            </div>
+
         {% endfor %}
     </div>
 {% endblock %}
