@@ -16,6 +16,17 @@
             <p>Поделиться: {{ request.get_host }}{% url 'webapp:token_photo' photo.tokens.first.id %}</p>
         {% endif %}
     </div>
+    {% if request.user.is_authenticated %}
+        <button id="un-fav-btn-{{ photo.id }}" class="btn btn-danger"
+                {% if photo.id not in fav_photos %}hidden{% endif %}
+                onclick="unFavouritePhoto({{ photo.id }})">Удалить из избранного
+        </button>
+        <button id="fav-btn-{{ photo.id }}" class="btn btn-success"
+                {% if photo.id in fav_photos %}hidden{% endif %}
+                onclick="favouritePhoto({{ photo.id }})">
+            Добавить в избранного
+        </button>
+    {% endif %}
     {% if request.user == photo.author %}
         <a href="{% url 'webapp:create_token' photo.id %}" class="btn btn-info">Сгенерировать ссылку</a>
     {% endif %}
@@ -25,4 +36,34 @@
     {% if request.user == photo.author or perms.webapp.delete_photo %}
         <a href="{% url 'webapp:photo_delete' photo.id %}" class="btn btn-success">Удалить</a>
     {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function unFavouritePhoto(id) {
+            fetch('/api/photo/unfavorite/' + id)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (response) {
+                    if (response.success) {
+                        document.getElementById("fav-btn-" + id).hidden = false;
+                        document.getElementById("un-fav-btn-" + id).hidden = true;
+                    } else { console.log(response);}
+                });
+        }
+
+        function favouritePhoto(id) {
+            fetch('/api/photo/favorite/' + id)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (response) {
+                    if (response.success) {
+                        document.getElementById("un-fav-btn-" + id).hidden = false;
+                        document.getElementById("fav-btn-" + id).hidden = true;
+                    } else { console.log(response);}
+                });
+        }
+    </script>
 {% endblock %}

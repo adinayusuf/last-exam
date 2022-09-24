@@ -23,11 +23,28 @@ class IndexView(ListView):
             return Photo.objects.filter(Q(is_private=False) | Q(author=self.request.user)).order_by("-created_at")
         return Photo.objects.filter(is_private=False).order_by("-created_at")
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            ctx['fav_photos'] = self.request.user.fav_photos.all().values_list('photo', flat=True)
+        return ctx
+
 
 class PhotoDetailView(DetailView):
     template_name = "photo/detail.html"
     model = Photo
     context_object_name = 'photo'
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return Photo.objects.filter(Q(is_private=False) | Q(author=self.request.user))
+        return Photo.objects.filter(is_private=False)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            ctx['fav_photos'] = self.request.user.fav_photos.all().values_list('photo', flat=True)
+        return ctx
 
 
 class PhotoCreateView(LoginRequiredMixin, CreateView):
@@ -127,11 +144,28 @@ class AlbumListView(ListView):
             return Album.objects.filter(Q(is_private=False) | Q(author=self.request.user)).order_by("-created_at")
         return Album.objects.filter(is_private=False).order_by("-created_at")
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            ctx['fav_albums'] = self.request.user.fav_albums.all().values_list('album', flat=True)
+        return ctx
+
 
 class AlbumDetailView(DetailView):
     template_name = "album/detail.html"
     model = Album
     context_object_name = 'album'
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return Album.objects.filter(Q(is_private=False) | Q(author=self.request.user))
+        return Album.objects.filter(is_private=False)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            ctx['fav_albums'] = self.request.user.fav_albums.all().values_list('album', flat=True)
+        return ctx
 
 
 class AlbumDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):

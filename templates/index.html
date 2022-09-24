@@ -9,7 +9,49 @@
                 10rem; background-repeat: no-repeat; cursor: pointer" alt=""></a>
                 <br>
                 <a href="{% url 'webapp:photo_detail' p.id %}">{{ p.description }}</a>
+                <br>
+                {% if request.user.is_authenticated %}
+                    <button id="un-fav-btn-{{ p.id }}" class="btn btn-danger"
+                            {% if p.id not in fav_photos %}hidden{% endif %}
+                            onclick="unFavouritePhoto({{ p.id }})">Удалить из избранного
+                    </button>
+                    <button id="fav-btn-{{ p.id }}" class="btn btn-success"
+                            {% if p.id in fav_photos %}hidden{% endif %}
+                            onclick="favouritePhoto({{ p.id }})">
+                        Добавить в избранного
+                    </button>
+                {% endif %}
             </div>
         {% endfor %}
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function unFavouritePhoto(id) {
+            fetch('/api/photo/unfavorite/' + id)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (response) {
+                    if (response.success) {
+                        document.getElementById("fav-btn-" + id).hidden = false;
+                        document.getElementById("un-fav-btn-" + id).hidden = true;
+                    } else { console.log(response);}
+                });
+        }
+
+        function favouritePhoto(id) {
+            fetch('/api/photo/favorite/' + id)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (response) {
+                    if (response.success) {
+                        document.getElementById("un-fav-btn-" + id).hidden = false;
+                        document.getElementById("fav-btn-" + id).hidden = true;
+                    } else { console.log(response);}
+                });
+        }
+    </script>
 {% endblock %}

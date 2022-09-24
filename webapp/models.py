@@ -33,10 +33,16 @@ class FavoritePhoto(models.Model):
     user = models.ForeignKey(get_user_model(), related_name='fav_photos', on_delete=models.CASCADE)
     photo = models.ForeignKey(Photo, related_name='fav_users', on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ('user', 'photo')
+
 
 class FavoriteAlbum(models.Model):
     user = models.ForeignKey(get_user_model(), related_name='fav_albums', on_delete=models.CASCADE)
     album = models.ForeignKey(Album, related_name='fav_users', on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('user', 'album')
 
 
 def epire_date():

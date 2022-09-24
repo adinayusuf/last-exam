@@ -5,6 +5,18 @@
         <br>
         <p class="font-weight-bold">Название: {{ album.title }}</p>
         <p class="font-italic">Описание: {{ album.description }}</p>
+
+        {% if request.user.is_authenticated %}
+            <button id="un-fav-btn-{{ album.id }}" class="btn btn-danger"
+                    {% if album.id not in fav_albums %}hidden{% endif %}
+                    onclick="unFavouriteAlbum({{ album.id }})">Удалить из избранного
+            </button>
+            <button id="fav-btn-{{ album.id }}" class="btn btn-success"
+                    {% if album.id in fav_albums %}hidden{% endif %}
+                    onclick="favouriteAlbum({{ album.id }})">
+                Добавить в избранного
+            </button>
+        {% endif %}
     </div>
     <br>
     {% if request.user == album.author or perms.webapp.change_album %}
@@ -29,5 +41,40 @@
                 </div>
             {% endif %}
         {% endfor %}
+
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function unFavouriteAlbum(id) {
+            fetch('/api/album/unfavorite/' + id)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (response) {
+                    if (response.success) {
+                        document.getElementById("fav-btn-" + id).hidden = false;
+                        document.getElementById("un-fav-btn-" + id).hidden = true;
+                    } else {
+                        console.log(response);
+                    }
+                });
+        }
+
+        function favouriteAlbum(id) {
+            fetch('/api/album/favorite/' + id)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (response) {
+                    if (response.success) {
+                        document.getElementById("un-fav-btn-" + id).hidden = false;
+                        document.getElementById("fav-btn-" + id).hidden = true;
+                    } else {
+                        console.log(response);
+                    }
+                });
+        }
+    </script>
 {% endblock %}

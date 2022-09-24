@@ -14,6 +14,46 @@
                     </div>
                 </a>
             </div>
+            {% if request.user.is_authenticated %}
+                <button id="un-fav-btn-{{ a.id }}" class="btn btn-danger"
+                        {% if a.id not in fav_albums %}hidden{% endif %}
+                        onclick="unFavouriteAlbum({{ a.id }})">Удалить из избранного
+                </button>
+                <button id="fav-btn-{{ a.id }}" class="btn btn-success"
+                        {% if a.id in fav_albums %}hidden{% endif %}
+                        onclick="favouriteAlbum({{ a.id }})">
+                    Добавить в избранного
+                </button>
+            {% endif %}
         {% endfor %}
     </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        function unFavouriteAlbum(id) {
+            fetch('/api/album/unfavorite/' + id)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (response) {
+                    if (response.success) {
+                        document.getElementById("fav-btn-" + id).hidden = false;
+                        document.getElementById("un-fav-btn-" + id).hidden = true;
+                    } else { console.log(response);}
+                });
+        }
+
+        function favouriteAlbum(id) {
+            fetch('/api/album/favorite/' + id)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (response) {
+                    if (response.success) {
+                        document.getElementById("un-fav-btn-" + id).hidden = false;
+                        document.getElementById("fav-btn-" + id).hidden = true;
+                    } else { console.log(response);}
+                });
+        }
+    </script>
 {% endblock %}
